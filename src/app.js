@@ -1,7 +1,7 @@
 import express from "express"
 import { __dirname } from "./utils.js"
 import handlebars from "express-handlebars"
-import inicioRouter from "./router/productos.router.js"
+import productosRouter from "./router/productos.router.js"
 import managerProducto from "./Dao/managerProductoFs.js"
 
 const app = express()
@@ -18,7 +18,7 @@ app.set("view engine", "handlebars")
 
 
 
-app.use("/", inicioRouter)
+app.use("/", productosRouter)
 
 
 

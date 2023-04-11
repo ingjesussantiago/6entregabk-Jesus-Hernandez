@@ -24,16 +24,18 @@ export default class ManagerProducto {
 
     addProduct = async (producto) => {
         try {
-            const productos = await this.getProduct()
+             const productos = await this.getProduct()
             const id = this.#generarId(productos)
             const nuevoProducto = { id, ...producto }
             productos.push(nuevoProducto)
 
-            await fs.promises.writeFile(this.path, JSON.stringify(productos))
+            await fs.promises.writeFile(path, JSON.stringify(productos))
             return nuevoProducto
         } catch (error) {
             console.log(error);
         }
+           
+      
 
     }
 
