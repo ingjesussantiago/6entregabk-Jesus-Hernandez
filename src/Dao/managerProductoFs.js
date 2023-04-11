@@ -1,35 +1,44 @@
 import fs from "fs";
+import { __dirname } from "../utils.js"
 
-export default class managerProducto {
+const path = __dirname + "productos.json"
 
-        constructor(path) {
-    
-            this.path = path
-        }
-    
-        getProduct = async () => {
-            if (fs.existsSync(this.path)) {
-                const buscarProduct = await fs.promises.readFile(this.path, "utf-8")
+export default class ManagerProducto {
+
+    getProduct = async () => {
+        if (fs.existsSync(path)) {
+            try {
+                const buscarProduct = await fs.promises.readFile(path, "utf-8")
                 const productos = JSON.parse(buscarProduct)
                 return productos
-            } else {
-                console.log("no hay archivo")
-                return []
-    
+            } catch (error) {
+                console.log(error);
             }
+
+        } else {
+            console.log("no hay archivo")
+            return []
+
         }
-    
-        addProduct = async (producto) => {
+    }
+
+    addProduct = async (producto) => {
+        try {
             const productos = await this.getProduct()
             const id = this.#generarId(productos)
             const nuevoProducto = { id, ...producto }
             productos.push(nuevoProducto)
-    
+
             await fs.promises.writeFile(this.path, JSON.stringify(productos))
             return nuevoProducto
+        } catch (error) {
+            console.log(error);
         }
-    
-        getProductoById = async (id) => {
+
+    }
+
+    getProductoById = async (id) => {
+        try {
             const productos = await this.getProduct()
             const productoId = productos.find(u => u.id === id)
             if (productoId) {
@@ -37,46 +46,62 @@ export default class managerProducto {
             } else {
                 return "producto no existe"
             }
-    
-    
-    
-    
+        } catch (error) {
+            console.log(error);
         }
-    
-        upDateProduc = async (id, obj) => {
+
+    }
+
+    upDateProduc = async (id, obj) => {
+        try {
             const productos = await this.getProduct()
             const indexProductos = productos.findIndex((u) => u.id === id)
             if (indexProductos === -1) {
                 return "no encontrado"
             }
-    
+
             const productoActualizado = { ...productos[indexProductos], ...obj }
             productos.splice(indexProductos, 1, productoActualizado)
             await fs.promises.writeFile(this.path, JSON.stringify(productos))
-    
+
+        } catch (error) {
+            console.log(error);
         }
-    
-        delateProduct = async () => {
-            if (fs.existsSync(this.path)) {
-                await fs.promises.unlink(this.path)
+
+    }
+
+    delateProduct = async () => {
+        if (fs.existsSync(path)) {
+            try {
+                await fs.promises.unlink(path)
                 return "archivo eliminado"
-            } else {
-                return "este archivo no existe"
+
+            } catch (error) {
+                console.log(error)
             }
-    
+
+        } else {
+            return "este archivo no existe"
         }
-    
-        delateProductById = async (id) => {
+
+    }
+
+    delateProductById = async (id) => {
+        try {
             const productos = await this.getProduct()
             const arrayNew = productos.filter((u) => u.id !== id)
             console.log(arrayNew);
             await fs.promises.writeFile(this.path, JSON.stringify(arrayNew))
-    
-    
+        } catch (error) {
+            console.log(error)
         }
-    
-        #generarId = (productos) => {
-    
+
+
+
+    }
+
+    #generarId = (productos) => {
+        try {
             let id
             if (productos.length === 0) {
                 id = 1
@@ -84,9 +109,10 @@ export default class managerProducto {
                 id = productos[productos.length - 1].id + 1
             }
             return id
-    
+        } catch (error) {
+            console.log(error)
         }
-    
     }
 
-    
+}
+
