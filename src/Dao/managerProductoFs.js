@@ -64,7 +64,7 @@ export default class ManagerProducto {
 
             const productoActualizado = { ...productos[indexProductos], ...obj }
             productos.splice(indexProductos, 1, productoActualizado)
-            await fs.promises.writeFile(this.path, JSON.stringify(productos))
+            await fs.promises.writeFile(path, JSON.stringify(productos))
 
         } catch (error) {
             console.log(error);
@@ -92,8 +92,9 @@ export default class ManagerProducto {
         try {
             const productos = await this.getProduct()
             const arrayNew = productos.filter((u) => u.id !== id)
-            console.log(arrayNew);
-            await fs.promises.writeFile(this.path, JSON.stringify(arrayNew))
+            console.log(arrayNew)
+            await fs.promises.writeFile(path, JSON.stringify(arrayNew))
+            return `producto ${id} eliminado`
         } catch (error) {
             console.log(error)
         }
