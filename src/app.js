@@ -3,6 +3,7 @@ import { __dirname } from "./utils.js"
 import handlebars from "express-handlebars"
 import productosRouter from "./router/productos.router.js"
 import managerProducto from "./Dao/managerProductoFs.js"
+import "./db/dbConfig.js"
 
 const app = express()
 
