@@ -65,6 +65,7 @@ export default class ManagerProducto {
             const productoActualizado = { ...productos[indexProductos], ...obj }
             productos.splice(indexProductos, 1, productoActualizado)
             await fs.promises.writeFile(path, JSON.stringify(productos))
+            return `producto ${id} actualizado`
 
         } catch (error) {
             console.log(error);
